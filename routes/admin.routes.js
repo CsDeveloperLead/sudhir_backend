@@ -6,7 +6,7 @@ const router = Router()
 
 router.route("/add-admin").post(addAdmin)
 router.route("/admin-login").post(login)
-router.route("/create-blog").post(upload.fields([{ name: "image", maxCount: 1 },{ name: "image1", maxCount: 1 },{ name: "image2", maxCount: 1 }]), addBlog)
+router.route("/create-blog").post(upload.fields([{ name: "image", maxCount: 1 }]), addBlog)
 router.route("/get-blogs").post(getBlogs)
 router.route("/delete-blogs").post(deleteAllBlogs)
 router.route("/get-single-blog").post(getSingleBlog)
