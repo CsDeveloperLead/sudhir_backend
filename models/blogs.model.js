@@ -14,20 +14,7 @@ const blogsSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    tag: {
-        type: String,
-        required: true,
-    },
-    category: {
-        type: String,
-        required: true,
-    },
-    image1:{
-        type:String
-    },
-    image2:{
-        type:String
-    }
+   
 },
     {
         timestamps: true
