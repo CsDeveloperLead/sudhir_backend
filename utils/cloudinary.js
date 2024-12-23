@@ -2,9 +2,7 @@ import dotenv from 'dotenv';
 import { v2 as cloudinary } from 'cloudinary';
 import { promises as fsPromises, existsSync } from 'fs';
 
-dotenv.config({
-    path: './.env',
-});
+dotenv.config();
 
 if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
     throw new Error('Missing Cloudinary configuration in environment variables');
