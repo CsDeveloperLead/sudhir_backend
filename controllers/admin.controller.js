@@ -1,7 +1,7 @@
 import { Admin } from "../models/admin.model.js";
 import jwt from "jsonwebtoken";
 import { Blog } from "../models/blogs.model.js";
-import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import { uploadOnCloudinary } from "../cloudinary.js";
 
 //this logic is to add admin credentials to backend
 export const addAdmin = async (req, res) => {

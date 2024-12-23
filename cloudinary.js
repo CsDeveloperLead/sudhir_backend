@@ -15,9 +15,7 @@ cloudinary.config({
 });
 
 const uploadOnCloudinary = async (localFilePath) => {
-    try {
-        console.log(localFilePath);
-        
+    try {        
         if (!localFilePath || !existsSync(localFilePath)) {
             console.error('Invalid or missing file path');
             return null;
