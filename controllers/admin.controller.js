@@ -57,41 +57,48 @@ export const login = async (req, res) => {
 };
 
 export const addBlog = async (req, res) => {
-  const { blogTitle, blogContent } = req.body;
-
-  if (!blogTitle || !blogContent || !req.files.image) {
-    return res
-      .status(401)
-      .json({ error: "Title, Category, tag and Image is required" });
-  }
+    try {
+      const { blogTitle, blogContent } = req.body;
   
-  const imagePath = `.\\${req.files.image[0].path}`;
-  console.log(imagePath,"imagePath");
-  const image = await uploadOnCloudinary(imagePath);
-
-  // let image1 = null;
-  // let image2 = null;
-
-  // if (req.files.image1) {
-  //     image1 = await uploadOnCloudinary(req.files.image1[0].path);
-  // }
-
-  // if (req.files.image2) {
-  //     image2 = await uploadOnCloudinary(req.files.image2[0].path);
-  // }
-
-  const blog = await Blog.create({
-    title: blogTitle,
-    content: blogContent,
-    image: image?.secure_url,
-  });
-
-  if (!blog) {
-    return res.status(401).json({ error: "Blog not founded" });
-  }
-
-  return res.status(200).json({ message: "blog created successfully" });
-};
+      // Validate input
+      if (!blogTitle || !blogContent || !req.files?.image) {
+        return res.status(400).json({
+          error: "Title, content, and image are required",
+        });
+      }
+  
+      // Get the uploaded image path
+      const imagePath = req.files.image[0].path;
+  
+      // Upload the image to Cloudinary
+      const image = await uploadOnCloudinary(imagePath);
+  
+      // Check if the upload was successful
+      if (!image?.secure_url) {
+        return res.status(500).json({
+          error: "Failed to upload image",
+        });
+      }
+  
+      // Create the blog entry
+      const blog = await Blog.create({
+        title: blogTitle,
+        content: blogContent,
+        image: image.secure_url,
+      });
+  
+      // Respond with success
+      return res.status(201).json({
+        message: "Blog created successfully",
+        blog,
+      });
+    } catch (error) {
+      console.error("Error adding blog:", error);
+      return res.status(500).json({
+        error: "An error occurred while creating the blog",
+      });
+    }
+  };
 
 // this is to get all blogs
 export const getBlogs = async (req, res) => {
