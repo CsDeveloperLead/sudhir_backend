@@ -69,9 +69,14 @@ export const addBlog = async (req, res) => {
   
       // Get the uploaded image path
       const imagePath = req.files.image[0].path;
+
+      console.log(imagePath);
   
       // Upload the image to Cloudinary
       const image = await uploadOnCloudinary(imagePath);
+
+      console.log(image.secure_url);
+      
   
       // Check if the upload was successful
       if (!image?.secure_url) {
