@@ -57,30 +57,34 @@ export const login = async (req, res) => {
 };
 
 export const addBlog = async (req, res) => {
-    const { blogTitle, blogContent } = req.body
+  const { blogTitle, blogContent } = req.body
 
-    if (!blogTitle || !blogContent || !req.files.image) {
-        return res.status(401).json({ error: "Title, Category, tag and Image is required" })
-    }
+  if (!blogTitle || !blogContent || !req.files.image) {
+      return res.status(401).json({ error: "Title, Category, tag and Image is required" })
+  }
 
-    const image = await uploadOnCloudinary(req.files.image[0].path)
+  const image = await uploadOnCloudinary(req.files.image[0].path)
 
-    if(!image){
-        console.log("Image not uploaded");
-        return res.status(401).json({ error: "Image not uploaded" })
-    }
+  if(!image){
+      console.log("Image not uploaded");
+      return res.status(401).json({ error: "Image not uploaded" })
+  }
 
-    const blog = await Blog.create({
-        title: blogTitle,
-        content: blogContent,
-        image: image.secure_url,
+  const blog = await Blog.create({
+      title: blogTitle,
+      content: blogContent,
+      image: image.secure_url,
 
-    })
+  })
 
-    if (!blog) {
-        return res.status(401).json({ error: "Blog not founded" })
-    }
-  };
+  if (!blog) {
+      return res.status(401).json({ error: "Blog not founded" })
+  }
+
+  return res
+      .status(200)
+      .json({ message: "blog created successfully" });
+}
 
 // this is to get all blogs
 export const getBlogs = async (req, res) => {
