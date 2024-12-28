@@ -54,29 +54,24 @@ export const login = async (req, res) => {
 }
 
 export const addBlog = async (req, res) => {
-    const { blogTitle,blogContent } = req.body
+    const { blogTitle, blogContent } = req.body
 
     if (!blogTitle || !blogContent || !req.files.image) {
         return res.status(401).json({ error: "Title, Category, tag and Image is required" })
     }
+
     const image = await uploadOnCloudinary(req.files.image[0].path)
 
-    // let image1 = null;
-    // let image2 = null;
-
-    // if (req.files.image1) {
-    //     image1 = await uploadOnCloudinary(req.files.image1[0].path);
-    // }
-
-    // if (req.files.image2) {
-    //     image2 = await uploadOnCloudinary(req.files.image2[0].path);
-    // }
+    if(!image){
+        console.log("Image not uploaded");
+        return res.status(401).json({ error: "Image not uploaded" })
+    }
 
     const blog = await Blog.create({
         title: blogTitle,
         content: blogContent,
         image: image.secure_url,
-       
+
     })
 
     if (!blog) {
