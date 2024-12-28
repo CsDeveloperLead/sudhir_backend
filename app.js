@@ -3,7 +3,7 @@ import cors from 'cors'
 
 const app = express()
 
-const allowedOrigins = ["http://localhost:5173", "http://localhost:8000", "https://sudhir-portfolio.vercel.app"]; // Add any other origins you need
+const allowedOrigins = ["http://localhost:5173", "http://localhost:8000", "https://sudhir-portfolio.vercel.app","https://sudhir-backend.vercel.app"]; // Add any other origins you need
 
 app.use(
     cors({
@@ -21,7 +21,7 @@ app.use(
 );
 app.use(express.json({ limit: '16kb' }))
 app.use(express.urlencoded({ extended: true, limit: '16kb' }))
-app.use(express.static('public'))
+app.use(express.static('tmp'))
 
 
 //import router here
