@@ -3,7 +3,7 @@ import cors from 'cors'
 
 const app = express()
 
-const allowedOrigins = ["http://localhost:5173", "http://localhost:8000", "https://sudhir-portfolio.vercel.app"]; // Add any other origins you need
+const allowedOrigins = ["http://localhost:5173", "http://localhost:8000", "https://sudhir-portfolio.vercel.app","https://mentorsudhir.com/"]; // Add any other origins you need
 
 app.use(
     cors({
