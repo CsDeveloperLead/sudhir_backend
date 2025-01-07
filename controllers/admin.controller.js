@@ -2,6 +2,7 @@ import { Admin } from "../models/admin.model.js";
 import jwt from "jsonwebtoken";
 import { Blog } from "../models/blogs.model.js";
 import { uploadOnCloudinary } from "../cloudinary.js";
+import { notifyAdmin } from "../services/emailServices.js";
 
 //this logic is to add admin credentials to backend
 export const addAdmin = async (req, res) => {
@@ -60,30 +61,30 @@ export const addBlog = async (req, res) => {
   const { blogTitle, blogContent } = req.body
 
   if (!blogTitle || !blogContent || !req.files.image) {
-      return res.status(401).json({ error: "Title, Category, tag and Image is required" })
+    return res.status(401).json({ error: "Title, Category, tag and Image is required" })
   }
 
   const image = await uploadOnCloudinary(req.files.image[0].path)
 
-  if(!image){
-      console.log("Image not uploaded");
-      return res.status(401).json({ error: "Image not uploaded" })
+  if (!image) {
+    console.log("Image not uploaded");
+    return res.status(401).json({ error: "Image not uploaded" })
   }
 
   const blog = await Blog.create({
-      title: blogTitle,
-      content: blogContent,
-      image: image.secure_url,
+    title: blogTitle,
+    content: blogContent,
+    image: image.secure_url,
 
   })
 
   if (!blog) {
-      return res.status(401).json({ error: "Blog not founded" })
+    return res.status(401).json({ error: "Blog not founded" })
   }
 
   return res
-      .status(200)
-      .json({ message: "blog created successfully" });
+    .status(200)
+    .json({ message: "blog created successfully" });
 }
 
 // this is to get all blogs
@@ -141,3 +142,23 @@ export const deleteSingleBlog = async (req, res) => {
 
   return res.status(200).json({ message: "Blog deleted Successfully" });
 };
+
+
+export const contactAdminThroughEmail = async (req, res) => {
+  const { name, email, message } = req.body
+
+  if (!name || !email || !message) {
+    return res.status(401).json({ error: "All fields are required" })
+  }
+
+  const messageToAdmin = `Name: ${name} \nEmail: ${email} \nMessage: ${message}`
+
+  const info = await notifyAdmin(email, messageToAdmin, "Contact from Website")
+
+  if (!info) {
+    return res.status(401).json({ error: "Email not sent" })
+  }
+
+  return res.status(200).json({ status: 200, message: "Email sent successfully" })
+
+}

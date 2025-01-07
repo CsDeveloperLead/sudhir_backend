@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addAdmin, addBlog, deleteAllBlogs, deleteSingleBlog, getBlogs, getSingleBlog, login } from "../controllers/admin.controller.js";
+import { addAdmin, addBlog, contactAdminThroughEmail, deleteAllBlogs, deleteSingleBlog, getBlogs, getSingleBlog, login } from "../controllers/admin.controller.js";
 import { upload } from '../middleware/multer.middleware.js'
 
 const router = Router()
@@ -11,6 +11,7 @@ router.route("/get-blogs").post(getBlogs)
 router.route("/delete-blogs").post(deleteAllBlogs)
 router.route("/get-single-blog").post(getSingleBlog)
 router.route("/delete-single-blog").post(deleteSingleBlog)
+router.route("/contact-admin").post(contactAdminThroughEmail)
 
 
 
